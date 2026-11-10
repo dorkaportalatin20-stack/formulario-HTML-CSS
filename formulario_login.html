@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+
+    <!-- === ESTILOS CSS === -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c71c1, #4a90e2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contenedor-formulario {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c71c1;
+            margin-bottom: 25px;
+        }
+
+        .grupo-input {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2c71c1;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background-color: #2c71c1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #1f5a9b;
+        }
+
+        .mensaje-error {
+            color: #d93025;
+            margin-top: 5px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .mensaje-exito {
+            background-color: #e6f4ea;
+            color: #137333;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-formulario">
+        <h2>Iniciar Sesión</h2>
+
+        <!-- === FORMULARIO === -->
+        <form id="formularioLogin">
+            
+            <!-- Campo Usuario -->
+            <div class="grupo-input">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" placeholder="Escribe tu usuario">
+                <div id="errorUsuario" class="mensaje-error"></div>
+            </div>
+
+            <!-- Campo Contraseña -->
+            <div class="grupo-input">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" placeholder="Escribe tu contraseña">
+                <div id="errorContrasena" class="mensaje-error"></div>
+            </div>
+
+            <!-- Botón -->
+            <button type="submit">Iniciar Sesión</button>
+
+            <!-- Mensaje de éxito -->
+            <div id="mensajeExito" class="mensaje-exito">¡Formulario enviado correctamente!</div>
+        </form>
+    </div>
+
+    <!-- === JAVASCRIPT: VALIDACIONES === -->
+    <script>
+        // Capturamos el formulario y los elementos
+        const formulario = document.getElementById('formularioLogin');
+        const inputUsuario = document.getElementById('usuario');
+        const inputContrasena = document.getElementById('contrasena');
+        const errorUsuario = document.getElementById('errorUsuario');
+        const errorContrasena = document.getElementById('errorContrasena');
+        const mensajeExito = document.getElementById('mensajeExito');
+
+        // Cuando se intente enviar el formulario
+        formulario.addEventListener('submit', function(event) {
+            // Primero ocultamos todo: errores y mensaje de éxito
+            errorUsuario.style.display = 'none';
+            errorContrasena.style.display = 'none';
+            mensajeExito.style.display = 'none';
+
+            let hayErrores = false;
+
+            // === VALIDACIÓN DEL USUARIO ===
+            const valorUsuario = inputUsuario.value.trim(); 
+
+            if (valorUsuario === "") {
+                mostrarError(errorUsuario, "El campo Usuario no puede estar vacío.");
+                hayErrores = true;
+            } else if (valorUsuario.length < 6) {
+                mostrarError(errorUsuario, "El usuario debe tener al menos 6 caracteres.");
+                hayErrores = true;
+            }
+
+            // === VALIDACIÓN DE LA CONTRASEÑA ===
+            const valorContrasena = inputContrasena.value.trim();
+
+            if (valorContrasena === "") {
+                mostrarError(errorContrasena, "El campo Contraseña no puede estar vacío.");
+                hayErrores = true;
+            } else if (valorContrasena.length < 8) {
+                mostrarError(errorContrasena, "La contraseña debe tener al menos 8 caracteres.");
+                hayErrores = true;
+            }
+
+            // === Si hay errores, NO enviamos el formulario ===
+            if (hayErrores) {
+                event.preventDefault(); // Detiene el envío
+            } else {
+                event.preventDefault(); 
+                mensajeExito.style.display = 'block';
+            }
+        });
+
+        // Función para mostrar los mensajes de error
+        function mostrarError(elemento, texto) {
+            elemento.textContent = texto;
+            elemento.style.display = 'block';
+        }
+    </script>
+    
+</body>
+</html>
